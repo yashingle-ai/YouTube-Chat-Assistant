@@ -1,7 +1,8 @@
-#this must be the first thing in your scri...
-__import__('pysqulite3')
-import sys 
-sys.modules['squlite3'] = sys.modules.pop('pysqulite3')
+# SQLite fix for Streamlit Cloud environments 
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+
 
 
 import streamlit as st
@@ -102,4 +103,5 @@ if task_option=="Chat with Video" and "vector_store" in st.session_state:
         with st.chat_message('assistant'):
            response= rag_answer(prompt,st.session_state.vector_store)
            st.write(response)
+
         st.session_state.messages.append({'role': 'assistant', 'content':response})
