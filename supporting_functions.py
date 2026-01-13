@@ -53,6 +53,7 @@ def get_transcript(video_id, language):
 # function to translate the transcript into english.
     # initialize the gemini model
 llm= ChatGoogleGenerativeAI(
+    # model="gemini-2.5-flash-lite",
     model="gemini-2.5-flash-lite",
     temperature=0.2
 )
@@ -148,7 +149,7 @@ def generate_notes(transcript):
 
 # FUNCTION TO CREATE CHUNKS
 def create_chunks(transcript):
-    text_splitters= RecursiveCharacterTextSplitter(chunk_size=10000,chunk_overlap=1000)
+    text_splitters= RecursiveCharacterTextSplitter(chunk_size=1000,chunk_overlap=200)
     doc= text_splitters.create_documents([transcript])
     return doc
 
@@ -187,5 +188,6 @@ def rag_answer(question, vectorstore):
     #chain
     chain = prompt|llm
     response= chain.invoke({"context":context_text,"question":question})
+
 
     return response.content
